@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Problem 3 : Location Logger</title>
+</head>
+<body onload="loadHistory()">
+
+    <h2>Location-Based Weather Logger</h2>
+
+    <button onclick="getLocation()">Get My Location</button>
+
+    <h3>Current Location</h3>
+    <p id="output"></p>
+
+    <h3>Location History (Last 5)</h3>
+    <ul id="historyList"></ul>
+
+<script>
+
+function getLocation() {
+
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(
+            showPosition,      // Success callback
+            showError,         // Error callback
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+
+    } else {
+        document.getElementById("output").innerText =
+            "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+
+    document.getElementById("output").innerText =
+        "Latitude: " + latitude + " | Longitude: " + longitude;
+
+    let locationEntry = {
+        lat: latitude,
+        lon: longitude,
+        time: new Date().toLocaleString()
+    };
+
+    saveLocation(locationEntry);
+}
+
+function showError(error) {
+
+    let message = "";
+
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            message = "Permission denied by user.";
+            break;
+        case error.POSITION_UNAVAILABLE:
+            message = "Location information is unavailable.";
+            break;
+        case error.TIMEOUT:
+            message = "Request timed out.";
+            break;
+        case error.UNKNOWN_ERROR:
+            message = "An unknown error occurred.";
+            break;
+    }
+
+    document.getElementById("output").innerText = message;
+}
+
+function saveLocation(entry) {
+
+    let history = localStorage.getItem("locationHistory");
+
+    if (history) {
+        history = JSON.parse(history);
+    } else {
+        history = [];
+    }
+
+    history.unshift(entry);   // Add new entry at beginning
+
+    if (history.length > 5) {
+        history.pop();        // Keep only last 5 entries
+    }
+
+    localStorage.setItem("locationHistory", JSON.stringify(history));
+
+    loadHistory();
+}
+
+function loadHistory() {
+
+    let history = localStorage.getItem("locationHistory");
+
+    if (history) {
+        history = JSON.parse(history);
+    } else {
+        history = [];
+    }
+
+    let list = document.getElementById("historyList");
+    list.innerHTML = "";
+
+    history.forEach(function(item) {
+        let li = document.createElement("li");
+        li.innerText =
+            "Lat: " + item.lat +
+            ", Lon: " + item.lon +
+            " (" + item.time + ")";
+        list.appendChild(li);
+    });
+}
+
+</script>
+
+</body>
+</html>
