@@ -1,0 +1,31 @@
+{
+  "events": [
+    {
+      "id": "1",
+      "title": "Full Stack Web Development Workshop",
+      "description": "A hands-on workshop covering HTML, CSS, JavaScript, and backend basics for building real-world web applications.",
+      "date": "2026-04-05",
+      "location": "Amrita Vishwa Vidyapeetham, Bangalore Campus",
+      "capacity": 120,
+      "availableSeats": 120
+    },
+    {
+      "id": "2",
+      "title": "AI & Machine Learning Seminar",
+      "description": "An introductory seminar on Artificial Intelligence and Machine Learning concepts with practical demonstrations.",
+      "date": "2026-04-12",
+      "location": "Cognizant Technology Solutions, Chennai",
+      "capacity": 80,
+      "availableSeats": 80
+    }
+  ],
+  "registrations": [
+    {
+      "id": "d4ac",
+      "eventId": "1",
+      "participantName": "Divandinne Raghavendra Reddy",
+      "email": "raghu2003reddy@gmail.com",
+      "phone": "9398662030"
+    }
+  ]
+}
